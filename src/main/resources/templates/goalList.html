@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>StudyingWith</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<h1>오늘의 목표</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>내용</th>
+        <th>시간</th>
+        <th>완료</th>
+        <th>날짜</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="goal : ${goals}">
+        <td th:text="${goal.content}"></td>
+        <td th:text="${goal.studyTime}"></td>
+        <td th:text="${goal.completeYn}"></td>
+        <td th:text="${goal.createdAt}"></td>
+        <td><a th:href="@{/goal/{id}/put(id=${goal.id})}">수정</a>
+            <a th:href="@{/goal/{id}/delete(id=${goal.id})}" th:method="post">삭제</a>
+        </td>
+    </tr>
+    </tbody>
+    <a th:href="@{/goal/planner/{planner_id}/add(planner_id=${plannerId})}">목표 추가</a>
+</table>
+<a href="/index">이전</a>
+<script th:inline="javascript">
+</script>
+
+</body>
+</html>
