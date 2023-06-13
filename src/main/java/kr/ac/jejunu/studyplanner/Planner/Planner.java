@@ -2,7 +2,7 @@ package kr.ac.jejunu.studyplanner.Planner;
 
 import jakarta.persistence.*;
 import kr.ac.jejunu.studyplanner.Goal.Goal;
-import kr.ac.jejunu.studyplanner.Member.Member;
+import kr.ac.jejunu.studyplanner.User.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,8 +21,8 @@ public class Planner {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column
     private String title;

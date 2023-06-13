@@ -1,12 +1,15 @@
 package kr.ac.jejunu.studyplanner.Goal;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import kr.ac.jejunu.studyplanner.Planner.Planner;
-import kr.ac.jejunu.studyplanner.Member.Member;
+import kr.ac.jejunu.studyplanner.User.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -24,14 +27,16 @@ public class Goal {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Member user;
+    private User user;
 
     @Column
     private String content;
+    @NotNull
     private int studyTime;
+
     private String completeYn;
     @CreatedDate
-    private String createdAt;
+    private LocalDate createdAt;
 
 
 }

@@ -1,21 +1,24 @@
 package kr.ac.jejunu.studyplanner.Goal;
 
+import kr.ac.jejunu.studyplanner.User.User;
+import kr.ac.jejunu.studyplanner.User.UserRepository;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class GoalService {
     private final GoalRepository goalRepository;
-
-    @Autowired
-    public GoalService(GoalRepository goalRepository) {
-        this.goalRepository = goalRepository;
-    }
+    private final UserRepository userRepository;
 
     public List<Goal> getByPlannerId(Long plannerId) {
-        return goalRepository.findByPlannerId(plannerId);
+        LocalDate currentDate = LocalDate.now();
+        return goalRepository.findByPlannerIdAndCreatedAt(plannerId, currentDate);
     }
 
     public Goal saveGoal(Goal goal) {
@@ -43,4 +46,24 @@ public class GoalService {
         return false;
     }
 
+    public Goal getGoalById(Long id) {
+        return goalRepository.findById(id).orElse(null);
+    }
+
+    public List<Goal> searchByDate(Long plannerId, LocalDate selectedDate, String username) {
+        User user = userRepository.findByUsername(username);
+        return goalRepository.findByPlannerIdAndCreatedAtAndUser(plannerId, selectedDate, user);
+    }
+
+    public int getGoalCountByPlannerId(Long plannerId, LocalDate startDate, LocalDate endDate) {
+        return goalRepository.countByPlannerIdAndCreatedAtBetween(plannerId, startDate, endDate);
+    }
+
+    public int getCompletedGoalCountByPlannerId(Long plannerId, LocalDate startDate, LocalDate endDate) {
+        return goalRepository.countByPlannerIdAndCompleteYnAndCreatedAtBetween(plannerId, "Y", startDate, endDate);
+    }
+
+    public int getTotalStudyTimeInRange(Long plannerId, LocalDate startDate, LocalDate endDate) {
+        return goalRepository.getTotalStudyTimeInRange(plannerId, startDate, endDate);
+    }
 }

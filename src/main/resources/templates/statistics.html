@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudyingWith</title>
+</head>
+<body>
+<h1>통계</h1>
+
+<h2>목표 달성률</h2>
+<p>플래너 ID: <span th:text="${plannerId}"></span></p>
+<p>기간: 1일부터 현재까지</p>
+<p>목표 개수: <span th:text="${goalCount}"></span></p>
+<p>달성된 목표 개수: <span th:text="${completedGoalCount}"></span></p>
+<p>목표 달성률: <span th:text="${goalAchievementRate}"></span>%</p>
+
+<br />
+<p>총 공부시간: <span th:text="${formattedStudyTime}"></span></p>
+
+</body>
+</html>

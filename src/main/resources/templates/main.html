@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>StudyingWith</title>
@@ -7,10 +7,10 @@
 <body>
     <h1>StudyingWith</h1>
     <div sec:authorize="isAuthenticated()">
-        <span th:text="${membername}"></span>
-    <p th:text="${member.membername}"></p>
-    <a class="button" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
-å
+        <span th:text="${username}"></span>
+        <a class="button" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+    </div>
+
     <nav th:fragment="nav">
         <button id="addPlannerButton" type="button">플래너 추가</button>
         <form id="addPlannerForm" th:action="@{/planner/add}" th:method="post" style="display: none;">
@@ -20,39 +20,46 @@
 
         <ul>
             <!-- 왼쪽 네비게이션 바 -->
-            <li th:each="planner : ${plannerList}">
+            <li th:each="planner : ${planners}">
                 <a th:href="@{/goal/planner/{planner_id}(planner_id=${planner.id})}" th:text="${planner.title}"></a>
                 <!--플래너 수정-->
-                <form id="putPlannerForm" th:action="@{/planner/{id}/put (id=${planner.id})}" th:method="post" style="display: none;">
+                <form th:action="@{/planner/{id}/put (id=${planner.id})}" th:method="post" style="display: none;">
                     <input type="hidden" name="id" th:value="${planner.id}">
                     <input type="text" name="title" placeholder="새로운 플래너 제목" required>
                     <button type="submit">확인</button>
                 </form>
-                <button id="putPlannerButton" type="button">수정</button>
+                <button class="putPlannerButton" type="button">수정</button>
                 <!--플래너 삭제-->
                 <form th:action="@{/planner/{id}/delete (id=${planner.id})}" th:method="post">
                     <input type="hidden" name="id" th:value="${planner.id}">
                     <button type="submit">삭제</button>
                 </form>
-
             </li>
         </ul>
     </nav>
 
     <script th:inline="javascript">
+        function showForm(element) {
+            element.style.display = 'block';
+        }
+
         var addButton = document.getElementById('addPlannerButton');
-        var form = document.getElementById('addPlannerForm');
+        var addForm = document.getElementById('addPlannerForm');
 
         addButton.addEventListener('click', function() {
-            form.style.display = 'block';
+            showForm(addForm);
         });
 
-        var putButton = document.getElementById('putPlannerButton');
-        var putForm = document.getElementById('putPlannerForm');
+        var putPlannerButtons = document.getElementsByClassName('putPlannerButton');
 
-        putButton.addEventListener('click', function() {
-            putForm.style.display = 'block';
-        });
+        for (var i = 0; i < putPlannerButtons.length; i++) {
+            putPlannerButtons[i].addEventListener("click", function (event) {
+                var putForm = event.target.previousElementSibling;
+                if (putForm) {
+                    showForm(putForm);
+                }
+            });
+        }
     </script>
 </body>
 </html>

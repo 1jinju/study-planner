@@ -1,7 +1,8 @@
-package kr.ac.jejunu.studyplanner.Member;
+package kr.ac.jejunu.studyplanner.User;
 
 import jakarta.persistence.*;
 import kr.ac.jejunu.studyplanner.Planner.Planner;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,18 +13,19 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "members")
+@Table(name = "users")
 @NoArgsConstructor
-public class Member {
+@AllArgsConstructor
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String membername;
-
+    private String username;
+    private String email;
     private String password;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Planner> planners= new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Planner> plannerList = new ArrayList<>();;
 }

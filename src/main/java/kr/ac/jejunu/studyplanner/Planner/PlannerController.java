@@ -1,7 +1,7 @@
 package kr.ac.jejunu.studyplanner.Planner;
 
 import jakarta.servlet.http.HttpServletRequest;
-import kr.ac.jejunu.studyplanner.Member.MemberService;
+import kr.ac.jejunu.studyplanner.User.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,36 +16,36 @@ import java.util.List;
 public class PlannerController {
 
     private final PlannerService plannerService;
-    private final MemberService userService;
+    private final UserService userService;
 
     @GetMapping("/planners")
     public String getPlanners(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String membername = authentication.getName();
-        List<Planner> planners = plannerService.getPlannersByUsername(membername);
-        model.addAttribute("membername", membername);
+        String username = authentication.getName();
+        List<Planner> planners = plannerService.getPlannersByUsername(username);
+        model.addAttribute("username", username);
         model.addAttribute("planners", planners);
         return "main";
     }
 
-    @PostMapping("/planners/add")
+    @PostMapping("/planner/add")
     public String createPlanner(@ModelAttribute Planner planner) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        planner.setMember(userService.getByUsername(username));
+        planner.setUser(userService.getByUsername(username));
         plannerService.savePlanner(planner, username);
-        return "redirect:/main";
+        return "redirect:/planners";
     }
 
-    @PostMapping("planner/{id}/put")
+    @PostMapping("/planner/{id}/put")
     public String putPlanner(@PathVariable Long id, @ModelAttribute Planner updatedPlanner) {
         Planner planner = plannerService.getPlannerById(id);
         planner.setTitle(updatedPlanner.getTitle());
         plannerService.updatePlanner(planner);
-        return "redirect:/user/" + planner.getMember().getId(); // 리다이렉트 URL
+        return "redirect:/planners";
     }
 
-    @PostMapping("planner/{id}/delete")
+    @PostMapping("/planner/{id}/delete")
     public String deletePlanner(@PathVariable Long id, HttpServletRequest request) {
         boolean deleted = plannerService.deletePlanner(id);
         if (!deleted) {

@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>StudyingWith</title>
-    <style>
-
-    </style>
 </head>
 <body>
 <h1>오늘의 목표</h1>
+
+
+<form th:action="@{/goal/planner/{planner_id}/search(planner_id=${plannerId})}" method="get">
+    <button type="submit">검색</button>
+</form>
+<form th:action="@{/goal/planner/{planner_id}/statistics(planner_id=${plannerId})}" method="get">
+    <button type="submit">통계</button>
+</form>
+
+<br>
+<a th:href="@{/goal/planner/{planner_id}/add(planner_id=${plannerId})}">목표 추가</a>
 
 <table>
     <thead>
@@ -25,14 +33,20 @@
         <td th:text="${goal.studyTime}"></td>
         <td th:text="${goal.completeYn}"></td>
         <td th:text="${goal.createdAt}"></td>
-        <td><a th:href="@{/goal/{id}/put(id=${goal.id})}">수정</a>
-            <a th:href="@{/goal/{id}/delete(id=${goal.id})}" th:method="post">삭제</a>
+        <td>
+            <form th:action="@{/goal/{id}/put(id=${goal.id})}" th:method="get">
+                <input type="hidden" name="id" th:value="${goal.id}">
+                <button type="submit">수정</button>
+            </form>
+            <form th:action="@{/goal/{id}/delete(id=${goal.id})}" th:method="post">
+                <button type="submit">삭제</button>
+            </form>
         </td>
     </tr>
-    </tbody>
-    <a th:href="@{/goal/planner/{planner_id}/add(planner_id=${plannerId})}">목표 추가</a>
+</tbody>
 </table>
-<a href="/index">이전</a>
+<a href="/planners">이전</a>
+
 <script th:inline="javascript">
 </script>
 

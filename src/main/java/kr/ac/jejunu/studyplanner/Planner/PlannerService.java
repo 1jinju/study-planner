@@ -1,7 +1,7 @@
 package kr.ac.jejunu.studyplanner.Planner;
 
-import kr.ac.jejunu.studyplanner.Member.Member;
-import kr.ac.jejunu.studyplanner.Member.MemberService;
+import kr.ac.jejunu.studyplanner.User.User;
+import kr.ac.jejunu.studyplanner.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,19 +20,19 @@ public class PlannerService {
     }
 
     @Autowired
-    private MemberService memberService;
+    private UserService userService;
 
     public Planner getPlannerById(Long plannerId) {
         Optional<Planner> plannerOptional = plannerRepository.findById(plannerId);
         return plannerOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Planner not found with id: " + plannerId));
     }
     public List<Planner> getPlannersByUsername(String username) {
-        Member member = memberService.getByUsername(username);
-        return plannerRepository.findPlannerByMember(member);
+        User user = userService.getByUsername(username);
+        return plannerRepository.findPlannerByUser(user);
     }
 
     public void savePlanner(Planner planner, String username) {
-        Member member = memberService.getByUsername(username);
+        User user = userService.getByUsername(username);
         plannerRepository.save(planner);
     }
 

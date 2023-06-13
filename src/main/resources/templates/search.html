@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudyingWith</title>
+</head>
+<body>
+<h1>Goal Search</h1>
+
+<form th:action="@{/goal/planner/{planner_id}/date(planner_id=${plannerId})}" method="get">
+    <label for="selectedDate">날짜 선택:</label>
+    <input type="date" id="selectedDate" name="selectedDate" required>
+    <input type="hidden" id="plannerId" name="plannerId" th:value="${plannerId}">
+    <button type="submit">조회</button>
+</form>
+
+<h2>검색 결과:</h2>
+<p>선택된 날짜: <span th:text="${selectedDate}"></span></p>
+<table>
+    <thead>
+    <tr>
+        <th>내용</th>
+        <th>공부 시간</th>
+        <th>완료 여부</th>
+        <th>생성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 검색 결과를 반복해서 출력 -->
+    <tr th:each="goal : ${goals}">
+        <td th:text="${goal.content}"></td>
+        <td th:text="${goal.studyTime}"></td>
+        <td th:text="${goal.completeYn}"></td>
+        <td th:text="${goal.createdAt}"></td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/goal/planner/{planner_id}(planner_id=${plannerId})}">이전</a>
+</body>
+</html>

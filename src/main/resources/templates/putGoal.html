@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>StudyingWith</title>
+  <meta charset="UTF-8">
+  <title>StudyingWith</title>
 </head>
 <body>
-<h1>목표 추가</h1>
-<form th:action="@{/goal/planner/{planner_id}/add(planner_id=${plannerId})}" method="post">
-  <input type="hidden" name="plannerId" value="${plannerId}">
+<form th:action="@{/goal/{id}/put(id=${goalId})}" th:object="${goal}" method="post">
+  <input type="hidden" th:field="*{planner.id}">
 
   <label for="content">내용:</label>
-  <input type="text" id="content" name="content" required>
+  <input type="text" id="content" th:field="*{content}" required>
 
   <label for="studyTime">공부 시간:</label>
-  <input type="number" id="studyTime" name="studyTime">
+  <input type="number" id="studyTime" th:field="*{studyTime}" required>
 
   <label for="completeYn">완료 여부:</label>
-  <select id="completeYn" name="completeYn" required>
+  <select id="completeYn" th:field="*{completeYn}" required>
     <option value="Y">완료</option>
     <option value="N">미완료</option>
   </select>
 
   <label for="createdAt">생성일:</label>
-  <input type="date" id="createdAt" name="createdAt" required>
+  <input type="date" id="createdAt" th:field="*{createdAt}" required>
 
   <button type="submit">저장</button>
 </form>
