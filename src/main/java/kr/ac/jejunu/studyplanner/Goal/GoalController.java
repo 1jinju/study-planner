@@ -5,7 +5,6 @@ import kr.ac.jejunu.studyplanner.Planner.PlannerService;
 import kr.ac.jejunu.studyplanner.User.User;
 import kr.ac.jejunu.studyplanner.User.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;

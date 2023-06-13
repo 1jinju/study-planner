@@ -2,9 +2,7 @@ package kr.ac.jejunu.studyplanner.Goal;
 
 import kr.ac.jejunu.studyplanner.User.User;
 import kr.ac.jejunu.studyplanner.User.UserRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +19,26 @@ public class GoalService {
         return goalRepository.findByPlannerIdAndCreatedAt(plannerId, currentDate);
     }
 
+    public Goal getGoalById(Long id) {
+        return goalRepository.findById(id).orElse(null);
+    }
+
+    public List<Goal> searchByDate(Long plannerId, LocalDate selectedDate, String username) {
+        User user = userRepository.findByUsername(username);
+        return goalRepository.findByPlannerIdAndCreatedAtAndUser(plannerId, selectedDate, user);
+    }
+
+    public int getGoalCountByPlannerId(Long plannerId, LocalDate startDate, LocalDate endDate) {
+        return goalRepository.countByPlannerIdAndCreatedAtBetween(plannerId, startDate, endDate);
+    }
+
+    public int getCompletedGoalCountByPlannerId(Long plannerId, LocalDate startDate, LocalDate endDate) {
+        return goalRepository.countByPlannerIdAndCompleteYnAndCreatedAtBetween(plannerId, "Y", startDate, endDate);
+    }
+
+    public int getTotalStudyTimeInRange(Long plannerId, LocalDate startDate, LocalDate endDate) {
+        return goalRepository.getTotalStudyTimeInRange(plannerId, startDate, endDate);
+    }
     public Goal saveGoal(Goal goal) {
         return goalRepository.save(goal);
     }
@@ -44,26 +62,5 @@ public class GoalService {
             return true;
         }
         return false;
-    }
-
-    public Goal getGoalById(Long id) {
-        return goalRepository.findById(id).orElse(null);
-    }
-
-    public List<Goal> searchByDate(Long plannerId, LocalDate selectedDate, String username) {
-        User user = userRepository.findByUsername(username);
-        return goalRepository.findByPlannerIdAndCreatedAtAndUser(plannerId, selectedDate, user);
-    }
-
-    public int getGoalCountByPlannerId(Long plannerId, LocalDate startDate, LocalDate endDate) {
-        return goalRepository.countByPlannerIdAndCreatedAtBetween(plannerId, startDate, endDate);
-    }
-
-    public int getCompletedGoalCountByPlannerId(Long plannerId, LocalDate startDate, LocalDate endDate) {
-        return goalRepository.countByPlannerIdAndCompleteYnAndCreatedAtBetween(plannerId, "Y", startDate, endDate);
-    }
-
-    public int getTotalStudyTimeInRange(Long plannerId, LocalDate startDate, LocalDate endDate) {
-        return goalRepository.getTotalStudyTimeInRange(plannerId, startDate, endDate);
     }
 }
