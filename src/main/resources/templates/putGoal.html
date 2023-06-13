@@ -3,57 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>StudyingWith</title>
-  <link rel="stylesheet" href="/css/style.css">
-  <style>
-    body {
-      background-color: #fafafa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 95vh;
-      font-family: Arial, sans-serif;
-    }
-    #putContent{
-      width: 300px;
-    }
-    #putContent form {
-      display: flex;
-      flex-direction: column;
-    }
-
-    #putContent input[type="text"],
-    #putContent input[type="number"],
-    #putContent select,
-    #putContent input[type="date"] {
-      padding: 12px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    #putContent button[type="submit"] {
-      padding: 13px 20px;
-      margin-top: 10px;
-      background-color: #0782F9;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 17px;
-    }
-
-    #putContent button[type="submit"]:hover {
-      background-color: #0569c6;
-    }
-
-    #putContent input::placeholder {
-      color: #999;
-    }
-    label {
-      margin-bottom: 3px;
-      font-size: 14px;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/putGoal.css">
 </head>
 <body>
 <div id="putContent">
@@ -78,13 +28,7 @@
     <button type="submit">저장</button>
   </form>
 </div>
-<script>
-  // 입력 필드의 값을 확인하고 기본값을 설정
-  var studyTimeInput = document.getElementById('studyTime');
-  if (!studyTimeInput.value) {
-    studyTimeInput.value = 0;  // 기본값 설정
-  }
-</script>
+<script src="/js/settingValue.js"></script>
 
 </body>
 </html>

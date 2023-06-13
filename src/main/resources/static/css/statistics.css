@@ -1,0 +1,41 @@
+body {
+    background-color: #fafafa;
+    justify-content: center;
+    height: 95vh;
+    font-family: Arial, sans-serif;
+}
+#statisticsContent{
+    margin: 20px;
+}
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.grayText {
+    color: #808080;
+}
+.progress {
+    height: 100%;
+    background-color: #0782F9;
+    border-radius: 10px;
+    transition: width 0.5s;
+}
+.study-time {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+    width: 130px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.study-time h3 {
+    font-size: 18px;
+    margin: 0;
+    text-align: center;
+}
+.goBack{
+    text-decoration: none;
+}

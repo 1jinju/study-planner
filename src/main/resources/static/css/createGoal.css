@@ -1,0 +1,50 @@
+body {
+    background-color: #fafafa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+    font-family: Arial, sans-serif;
+}
+
+#createContent{
+    width: 300px;
+}
+
+#createContent form {
+    display: flex;
+    flex-direction: column;
+}
+
+#createContent input[type="text"],
+#createContent input[type="number"],
+#createContent select,
+#createContent input[type="date"] {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#createContent button[type="submit"] {
+    padding: 13px 20px;
+    margin-top: 10px;
+    background-color: #0782F9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+#createContent button[type="submit"]:hover {
+    background-color: #0569c6;
+}
+
+#createContent input::placeholder {
+    color: #999;
+}
+label {
+    margin-bottom: 3px;
+    font-size: 14px;
+}
