@@ -3,52 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <title>StudyingWith</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            background-color: #fafafa;
+            justify-content: center;
+            height: 95vh;
+            border-width: 10px;
+            font-family: Arial, sans-serif;
+        }
+        #goalContent{
+            margin: 20px;
+        }
+        h1{
+            margin-right: 20px;
+        }
+        .tab-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .tab-container button {
+            display: block;
+            width: 100%;
+            padding: 5px 15px;
+            border-radius: 5px;
+            margin-bottom: 2%;
+            background-color: transparent;
+            border: none;
+            font-size: 17px;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .tab-container button:hover {
+            background-color: #eee;
+        }
+        #addGoalBtn {
+            position: relative;
+            text-decoration: none;
+            text-align: center;
+            background-color: #0782F9;
+            color: #fff;
+            width: 90px;
+            height: 32px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table th, table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        table td form {
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .BtnStyle{
+            margin-left: 0.2rem;
+            color: #000;
+            padding: 0.4rem 0.7rem;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .goBack{
+            text-decoration: none;
+        }
+
+    </style>
 </head>
 <body>
-<h1>오늘의 목표</h1>
+<div id="goalContent">
+    <div class="tab-container">
+        <h1 id="todayDate"></h1>
+        <form th:action="@{/goal/planner/{planner_id}/search(planner_id=${plannerId})}" method="get">
+            <button type="submit">검색</button>
+        </form>
+        <form th:action="@{/goal/planner/{planner_id}/statistics(planner_id=${plannerId})}" method="get">
+            <button type="submit">통계</button>
+        </form>
+    </div>
 
+    <div>
+        <a th:href="@{/goal/planner/{planner_id}/add(planner_id=${plannerId})}">
+            <button id="addGoalBtn">목표 추가</button>
+        </a>
 
-<form th:action="@{/goal/planner/{planner_id}/search(planner_id=${plannerId})}" method="get">
-    <button type="submit">검색</button>
-</form>
-<form th:action="@{/goal/planner/{planner_id}/statistics(planner_id=${plannerId})}" method="get">
-    <button type="submit">통계</button>
-</form>
-
-<br>
-<a th:href="@{/goal/planner/{planner_id}/add(planner_id=${plannerId})}">목표 추가</a>
-
-<table>
-    <thead>
-    <tr>
-        <th>내용</th>
-        <th>시간</th>
-        <th>완료</th>
-        <th>날짜</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="goal : ${goals}">
-        <td th:text="${goal.content}"></td>
-        <td th:text="${goal.studyTime}"></td>
-        <td th:text="${goal.completeYn}"></td>
-        <td th:text="${goal.createdAt}"></td>
-        <td>
-            <form th:action="@{/goal/{id}/put(id=${goal.id})}" th:method="get">
-                <input type="hidden" name="id" th:value="${goal.id}">
-                <button type="submit">수정</button>
-            </form>
-            <form th:action="@{/goal/{id}/delete(id=${goal.id})}" th:method="post">
-                <button type="submit">삭제</button>
-            </form>
-        </td>
-    </tr>
-</tbody>
-</table>
-<a href="/planners">이전</a>
-
+        <table>
+            <thead>
+            <tr>
+                <th>내용</th>
+                <th>시간</th>
+                <th>완료</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="goal : ${goals}">
+                <td th:text="${goal.content}"></td>
+                <td th:text="${goal.studyTime}"></td>
+                <td th:text="${goal.completeYn}"></td>
+                <td>
+                    <form th:action="@{/goal/{id}/put(id=${goal.id})}" th:method="get">
+                        <input type="hidden" name="id" th:value="${goal.id}">
+                        <button class="BtnStyle" type="submit">수정</button>
+                    </form>
+                    <form th:action="@{/goal/{id}/delete(id=${goal.id})}" th:method="post">
+                        <button class="BtnStyle" type="submit">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <a class="goBack" href="/planners">이전</a>
+</div>
 <script th:inline="javascript">
-</script>
+    function getTodayDate() {
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
 
+        // 날짜를 "yyyy년 mm월 dd일" 형식으로 변환
+        var formattedDate = year + "년 " + month + "월 " + day + "일";
+        return formattedDate;
+    }
+
+    document.getElementById("todayDate").textContent = getTodayDate();
+</script>
 </body>
 </html>
