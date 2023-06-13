@@ -3,29 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <title>StudyingWith</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body {
+      background-color: #fafafa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 95vh;
+      font-family: Arial, sans-serif;
+    }
+    #putContent{
+      width: 300px;
+    }
+    #putContent form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #putContent input[type="text"],
+    #putContent input[type="number"],
+    #putContent select,
+    #putContent input[type="date"] {
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #putContent button[type="submit"] {
+      padding: 13px 20px;
+      margin-top: 10px;
+      background-color: #0782F9;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 17px;
+    }
+
+    #putContent button[type="submit"]:hover {
+      background-color: #0569c6;
+    }
+
+    #putContent input::placeholder {
+      color: #999;
+    }
+    label {
+      margin-bottom: 3px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
-<form th:action="@{/goal/{id}/put(id=${goalId})}" th:object="${goal}" method="post">
-  <input type="hidden" th:field="*{planner.id}">
+<div id="putContent">
+  <h1>목표 수정</h1>
+  <form th:action="@{/goal/{id}/put(id=${goalId})}" th:object="${goal}" method="post">
+    <input type="hidden" th:field="*{planner.id}">
 
-  <label for="content">내용:</label>
-  <input type="text" id="content" th:field="*{content}" required>
+    <input type="text" id="content" th:field="*{content}" placeholder="내용" required>
 
-  <label for="studyTime">공부 시간:</label>
-  <input type="number" id="studyTime" th:field="*{studyTime}" required>
+    <label for="studyTime">공부 시간</label>
+    <input type="number" id="studyTime" th:field="*{studyTime}" required>
 
-  <label for="completeYn">완료 여부:</label>
-  <select id="completeYn" th:field="*{completeYn}" required>
-    <option value="Y">완료</option>
-    <option value="N">미완료</option>
-  </select>
+    <label for="completeYn">완료 여부</label>
+    <select id="completeYn" th:field="*{completeYn}" required>
+      <option value="Y">완료</option>
+      <option value="N">미완료</option>
+    </select>
 
-  <label for="createdAt">생성일:</label>
-  <input type="date" id="createdAt" th:field="*{createdAt}" required>
+    <label for="createdAt">생성일</label>
+    <input type="date" id="createdAt" th:field="*{createdAt}" required>
 
-  <button type="submit">저장</button>
-</form>
-
+    <button type="submit">저장</button>
+  </form>
+</div>
 <script>
   // 입력 필드의 값을 확인하고 기본값을 설정
   var studyTimeInput = document.getElementById('studyTime');

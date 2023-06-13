@@ -3,19 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title>StudyingWith</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            background-color: #fafafa;
+            justify-content: center;
+            height: 95vh;
+            border-width: 10px;
+            font-family: Arial, sans-serif;
+        }
+        #statisticsContent{
+            margin: 20px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .grayText {
+            color: #808080;
+        }
+        .progress {
+            height: 100%;
+            background-color: #0782F9;
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+        .study-time {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+            width: 130px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .study-time h3 {
+            font-size: 18px;
+            margin: 0;
+            text-align: center;
+        }
+        .goBack{
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-<h1>통계</h1>
+    <div id="statisticsContent">
+        <h1>통계</h1>
+        <p>이번달 1일부터 오늘까지의 통계입니다.</p>
 
-<h2>목표 달성률</h2>
-<p>플래너 ID: <span th:text="${plannerId}"></span></p>
-<p>기간: 1일부터 현재까지</p>
-<p>목표 개수: <span th:text="${goalCount}"></span></p>
-<p>달성된 목표 개수: <span th:text="${completedGoalCount}"></span></p>
-<p>목표 달성률: <span th:text="${goalAchievementRate}"></span>%</p>
+        <h2>목표 달성률 </h2>
+        <h3><span id="goalAchievementRateValue" th:text="${goalAchievementRate}"></span>%</h3>
 
-<br />
-<p>총 공부시간: <span th:text="${formattedStudyTime}"></span></p>
+        <div class="progress-bar">
+            <div class="progress" style="width: 0%;"></div>
+        </div>
+        <p class="grayText">달성한 목표 <span th:text="${completedGoalCount}"></span> / 총 목표 <span th:text="${goalCount}"></span></p>
 
+        <br />
+
+        <h2>총 공부시간</h2>
+        <div class="study-time">
+            <h3><span th:text="${formattedStudyTime}"></span></h3>
+        </div>
+
+        <br>
+        <a class="goBack" th:href="@{/goal/planner/{planner_id}(planner_id=${plannerId})}">이전</a>
+    </div>
+
+    <script th:inline="javascript">
+        const goalAchievementRateElement = document.getElementById('goalAchievementRateValue');
+        const goalAchievementRate = parseFloat(goalAchievementRateElement.textContent);
+
+        const progress = document.querySelector('.progress');
+        progress.style.width = `${goalAchievementRate}%`;
+
+    </script>
 </body>
 </html>

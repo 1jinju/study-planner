@@ -3,31 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <title>StudyingWith</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+      body {
+        background-color: #fafafa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 95vh;
+        font-family: Arial, sans-serif;
+      }
+      #createContent{
+        width: 300px;
+      }
+      #createContent form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #createContent input[type="text"],
+      #createContent input[type="number"],
+      #createContent select,
+      #createContent input[type="date"] {
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      #createContent button[type="submit"] {
+        padding: 13px 20px;
+        margin-top: 10px;
+        background-color: #0782F9;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 17px;
+      }
+
+      #createContent button[type="submit"]:hover {
+        background-color: #0569c6;
+      }
+
+      #createContent input::placeholder {
+        color: #999;
+      }
+      label {
+        margin-bottom: 3px;
+        font-size: 14px;
+      }
+    </style>
 </head>
 <body>
-<h1>목표 추가</h1>
-<form th:action="@{/goal/planner/{planner_id}/add(planner_id=${plannerId})}" method="post">
-  <input type="hidden" name="plannerId" value="${plannerId}">
+<div id="createContent">
+  <h1>목표 추가</h1>
+  <form th:action="@{/goal/planner/{planner_id}/add(planner_id=${plannerId})}" method="post">
+    <input type="hidden" name="plannerId" value="${plannerId}">
 
-  <label for="content">내용:</label>
-  <input type="text" id="content" name="content" required>
+    <input type="text" id="content" name="content" placeholder="내용" required>
 
-  <label for="studyTime">공부 시간:</label>
-  <input type="number" id="studyTime" name="studyTime">
+    <label for="studyTime">공부 시간</label>
+    <input type="number" id="studyTime" name="studyTime">
 
-  <label for="completeYn">완료 여부:</label>
-  <select id="completeYn" name="completeYn" required>
-    <option value="Y">완료</option>
-    <option value="N">미완료</option>
-  </select>
+    <label for="completeYn">완료 여부</label>
+    <select id="completeYn" name="completeYn" required>
+      <option value="Y">완료</option>
+      <option value="N">미완료</option>
+    </select>
 
-  <label for="createdAt">생성일:</label>
-  <input type="date" id="createdAt" name="createdAt" required>
+    <label for="createdAt">생성일</label>
+    <input type="date" id="createdAt" name="createdAt" placeholder="생성일" required>
 
-  <button type="submit">저장</button>
-</form>
-
-<script>
+    <button type="submit">저장</button>
+  </form>
+</div>
+<script th:inline="javascript">
   // 입력 필드의 값을 확인하고 기본값을 설정
   var studyTimeInput = document.getElementById('studyTime');
   if (!studyTimeInput.value) {
