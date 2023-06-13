@@ -3,18 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <title>StudyingWith</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            background-color: #fafafa;
+            display: flex;
+            height: 95vh;
+            width: 95vh;
+            font-family: Arial, sans-serif;
+        }
+        #mainContent {
+            margin: 2%;
+        }
+        h1 {
+            margin-bottom: 2rem;
+        }
+
+        #addPlannerButton {
+            display: inline-block;
+            background-color: #3b3b3b;
+            color: #808080;
+            padding: 0.2rem 0.7rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        #addPlannerForm {
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        #addPlannerForm input[type="text"] {
+            width: 150px;
+            padding: 0.3rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        #addPlannerForm button[type="submit"] {
+            color: #000;
+            padding: 0.4rem 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+
+        #navigation {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            background-color: #3b3b3b;
+            padding: 1rem;
+            height: 97%;
+            width: 250px;
+            overflow-y: auto;
+            box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        #navigation ul {
+            list-style: none;
+            padding: 0;
+            margin-left: 0;
+            margin-top: 4%;
+        }
+
+        #navigation ul li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: relative;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        #navigation ul li:last-child {
+            border-bottom: none;
+        }
+
+        #navigation ul li a {
+            position: relative;
+            display: inline-block;
+            padding-left: 0.5rem;
+            text-decoration: none;
+            color: #fff;
+            font-size: 21px;
+        }
+
+        #navigation ul li a::before {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+        #rowBtn {
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: row;
+        }
+        #newTitleInput{
+            width: 140px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            padding: 4px;
+        }
+        .putPlannerButton{
+            margin-left: 0.5rem;
+            color: #000;
+            padding: 0.3rem 0.5rem;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .logoutDiv {
+            position: fixed;
+            bottom: 15px;
+            width: 250px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .white {
+            color: #fff;
+            font-size: 20px;
+        }
+        .logoutBtn {
+            display: inline-block;
+            background-color: #0782F9;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        .logoutBtn:hover {
+            background-color: #0569c6;
+        }
+        @media (max-width: 800px) {
+            #navigation {
+                display: none;
+            }
+        }
+        @media (min-width: 801px) {
+            body {
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>StudyingWith</h1>
-    <div sec:authorize="isAuthenticated()">
-        <span th:text="${username}"></span>
-        <a class="button" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+    <div id="mainContent">
+        <h1>StudyingWith</h1>
+        <p>+를 눌러 플래너를 작성해보세요</p>
     </div>
 
-    <nav th:fragment="nav">
-        <button id="addPlannerButton" type="button">플래너 추가</button>
+    <div id="navigation">
+        <button id="addPlannerButton" type="button">+</button>
         <form id="addPlannerForm" th:action="@{/planner/add}" th:method="post" style="display: none;">
-            <input type="text" name="title" placeholder="플래너 제목" required>
+            <input type="text" name="title" placeholder="플래너 이름" required>
             <button type="submit">확인</button>
         </form>
 
@@ -22,21 +184,27 @@
             <!-- 왼쪽 네비게이션 바 -->
             <li th:each="planner : ${planners}">
                 <a th:href="@{/goal/planner/{planner_id}(planner_id=${planner.id})}" th:text="${planner.title}"></a>
-                <!--플래너 수정-->
-                <form th:action="@{/planner/{id}/put (id=${planner.id})}" th:method="post" style="display: none;">
-                    <input type="hidden" name="id" th:value="${planner.id}">
-                    <input type="text" name="title" placeholder="새로운 플래너 제목" required>
-                    <button type="submit">확인</button>
-                </form>
-                <button class="putPlannerButton" type="button">수정</button>
-                <!--플래너 삭제-->
-                <form th:action="@{/planner/{id}/delete (id=${planner.id})}" th:method="post">
-                    <input type="hidden" name="id" th:value="${planner.id}">
-                    <button type="submit">삭제</button>
-                </form>
+                <div id="rowBtn">
+                    <!--플래너 수정-->
+                    <form th:action="@{/planner/{id}/put (id=${planner.id})}" th:method="post" style="display: none;">
+                        <input type="hidden" name="id" th:value="${planner.id}">
+                        <input type="text" name="title" id="newTitleInput" required>
+                        <button type="submit" style="display: none">추가</button>
+                    </form>
+                    <button class="putPlannerButton" type="button">수정</button>
+                    <!--플래너 삭제-->
+                    <form th:action="@{/planner/{id}/delete (id=${planner.id})}" th:method="post">
+                        <input type="hidden" name="id" th:value="${planner.id}">
+                        <button class="putPlannerButton" type="submit">삭제</button>
+                    </form>
+                </div>
             </li>
         </ul>
-    </nav>
+        <div sec:authorize="isAuthenticated()" class="logoutDiv">
+            <span th:text="${username}" class="white"></span>
+            <a class="logoutBtn" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+        </div>
+    </div>
 
     <script th:inline="javascript">
         function showForm(element) {

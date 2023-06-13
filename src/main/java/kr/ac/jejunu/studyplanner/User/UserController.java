@@ -1,5 +1,6 @@
 package kr.ac.jejunu.studyplanner.User;
 
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import kr.ac.jejunu.studyplanner.Planner.Planner;
 import kr.ac.jejunu.studyplanner.Planner.PlannerService;
@@ -24,7 +25,11 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    private PlannerService plannerService;
+
+    @GetMapping("/index")
+    public String showIndexPage() {
+        return "index";
+    }
 
     @GetMapping("/user/login")
     public String showLoginForm() {
@@ -48,17 +53,33 @@ public class UserController {
         }
 
         try {
-            userService.create(userCreateForm.getUsername(),
-                    userCreateForm.getEmail(), userCreateForm.getPassword());
-        }catch(DataIntegrityViolationException e) {
-            e.printStackTrace();
-            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "signup_form";
-        }catch(Exception e) {
+            // 사용자 조회
+            User existingUser = userService.findByUsername(userCreateForm.getUsername());
+
+            // 이미 등록된 사용자인 경우 예외 처리
+            if (existingUser != null) {
+                bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+                return "signup_form";
+            }
+            userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword());
+        } catch(Exception e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", e.getMessage());
             return "signup_form";
         }
+
+//        try {
+//            userService.create(userCreateForm.getUsername(),
+//                    userCreateForm.getEmail(), userCreateForm.getPassword());
+//        }catch(ConstraintViolationException e) {
+//            e.printStackTrace();
+//            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+//            return "signup_form";
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//            bindingResult.reject("signupFailed", e.getMessage());
+//            return "signup_form";
+//        }
 
         return "redirect:/user/login";
     }

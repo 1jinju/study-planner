@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public interface GoalRepository extends JpaRepository<Goal, Long> {
-    List<Goal> findByPlannerId(Long plannerId);
     List<Goal> findByPlannerIdAndCreatedAt(Long plannerId, LocalDate createdAt);
     List<Goal> findByPlannerIdAndCreatedAtAndUser(Long plannerId, LocalDate createdAt, User user);
 
